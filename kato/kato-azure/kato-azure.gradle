@@ -1,0 +1,16 @@
+dependencies {
+  def cloudFoundryClientVersion = '1.1.3'
+
+  def azureSDKVersion = '0.8.2'
+
+  compile project(":kato:kato-core")
+  compile project(":clouddriver-azure")
+  compile spinnaker.dependency('bootActuator')
+  compile("com.microsoft.azure:azure-core:${azureSDKVersion}")
+  compile("com.microsoft.azure:azure-mgmt-compute:${azureSDKVersion}")
+  compile("com.microsoft.azure:azure-mgmt-network:${azureSDKVersion}")
+  compile("com.microsoft.azure:azure-mgmt-resources:${azureSDKVersion}")
+  compile("com.microsoft.azure:azure-mgmt-utility:${azureSDKVersion}")
+  compile("com.microsoft.azure:azure-serviceruntime:${azureSDKVersion}")
+
+}

@@ -45,6 +45,10 @@ class AzureNetworkClient extends AzureBaseClient {
     return findLoadBalancer(getLoadBalancersForResourceGroup(creds, resourceGroupName), loadBalanacerName)
   }
 
+  public String getLoadBalancerHealthState(AzureCredentials creds, String loadBalancerName) {
+    return getLoadBalancer(creds, loadBalancerName).getProvisioningState();
+  }
+
   protected NetworkResourceProviderClient getNetworkResourceProviderClient(AzureCredentials creds) {
     return NetworkResourceProviderService.create(this.buildConfiguration(creds))
   }

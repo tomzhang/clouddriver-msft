@@ -1,0 +1,20 @@
+dependencies {
+  compile project(":oort:oort-core")
+  compile project(":clouddriver-azure")
+  //compile project(":mort:mort-azure")
+  compile 'com.microsoft.azure:adal4j:1.1.1'
+  compile 'com.microsoft.azure:azure-mgmt-utility:0.9.0'
+  compile 'com.microsoft.azure:azure-mgmt-resources:0.9.0'
+  compile 'com.microsoft.azure:azure-core:0.9.0'
+  compile 'com.microsoft.azure:azure-mgmt-compute:0.9.0'
+  compile 'com.microsoft.azure:azure-svc-mgmt-storage:0.9.0'
+  compile 'com.microsoft.azure:azure-svc-mgmt-compute:0.9.0'
+  compile 'com.microsoft.azure:azure-svc-mgmt:0.9.0'
+  compile 'com.microsoft.azure:azure-mgmt-storage:0.9.0'
+  compile 'com.microsoft.azure:azure-svc-mgmt-network:0.9.0'
+
+  spinnaker.group("bootWeb")
+
+  compile spinnaker.dependency("frigga")
+}
+

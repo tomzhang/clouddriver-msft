@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
-package com.netflix.spinnaker.clouddriver.azure
+package com.netflix.spinnaker.kato.azure.deploy
 
-import java.lang.annotation.ElementType
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
-import java.lang.annotation.Target
+import com.netflix.spinnaker.kato.data.task.Task
+import org.springframework.beans.factory.annotation.Autowired
 
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface AzureOperation {
-  String value()
+class AzureOperationPoller {
+
+  // This only exists to facilitate testing.
+  static class ThreadSleeper {
+    void sleep(long seconds) {
+      Thread.currentThread().sleep(seconds * 1000)
+    }
+  }
+
 }

@@ -67,6 +67,7 @@ azure:
       appKey: ${AZURE_APPKEY}
       tenantId: ${AZURE_TENANT_ID}
       subscriptionId: ${AZURE_SUBSCRIPTION_ID}
+      regions: ["West US", "East US"]
 
 google:
   enabled: false
