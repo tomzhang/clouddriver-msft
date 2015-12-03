@@ -51,8 +51,8 @@ class AzureLoadBalancerResourceTemplate extends AzureResourceBaseTemplate {
   // Define the variables that will be used
   static String getVariablesTemplate(UpsertAzureLoadBalancerDescription description) {
 
-    String regionName = description.region.replace(' ', '_')
-    String networkResourceSuffix = "-" + regionName + "." + description.loadBalancerName
+    String regionName = description.region.replace(' ', '')
+    String networkResourceSuffix = "-" + regionName + "-" + description.loadBalancerName
     String vnetName = "vnet" + networkResourceSuffix
     String publicIPName = "publicIp" + networkResourceSuffix
     String frontEndIPConfigName = "lbFrontEnd" + networkResourceSuffix
