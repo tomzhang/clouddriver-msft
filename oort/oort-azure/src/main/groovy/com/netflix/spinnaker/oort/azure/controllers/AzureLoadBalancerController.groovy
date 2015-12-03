@@ -80,14 +80,24 @@ class AzureLoadBalancerController {
 
     if (azureLoadBalancerDescription) {
       def lbDetail = [
-        loadBalancers: azureLoadBalancerDescription.loadBalancerName
+        name: azureLoadBalancerDescription.loadBalancerName
       ]
 
       if (azureLoadBalancerDescription.createdTime) {
         lbDetail.createdTime = azureLoadBalancerDescription.createdTime
       }
+      else {
+        // return a constant in order to test the "deck" details view for a given load balancer
+        lbDetail.createdTime = 1448944139570
+      }
 
-      lbDetail.vnet = azureLoadBalancerDescription.vnet
+      if (azureLoadBalancerDescription.vnet) {
+        lbDetail.vnet = azureLoadBalancerDescription.vnet
+      }
+      else {
+        // return a constant in order to test the "deck" details view for a given load balancer
+        lbDetail.vnet = "vnet-unassigned"
+      }
 
       lbDetail.probes = [ azureLoadBalancerDescription.probes ]
 
@@ -106,13 +116,16 @@ class AzureLoadBalancerController {
       if (azureLoadBalancerDescription.dnsName) {
         lbDetail.dnsName = [ azureLoadBalancerDescription.dnsName ]
       }
+      else {
+        // return a constant in order to test the "deck" details view for a given load balancer
+        lbDetail.dnsName = "dnsname-unassigned"
+      }
 
       return [lbDetail]
     }
 
     return []
   }
-
 
   static class AzureLoadBalancerSummary {
     private Map<String, AzureLoadBalancerAccount> mappedAccounts = [:]
