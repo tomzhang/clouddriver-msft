@@ -21,15 +21,15 @@ class AzureLoadBalancerDescription extends AzureBaseDescription {
   String stack
   String detail
   String vnet
-  List<AzureLoadBalancerProbes> probes
+  List<AzureLoadBalancerProbe> probes
   String securityGroups
-  List<AzureLoadBalancingRules> loadBalancingRules
-  List<AzureLoadBalancerInboundNATRules> inboundNATRules
+  List<AzureLoadBalancingRule> loadBalancingRules
+  List<AzureLoadBalancerInboundNATRule> inboundNATRules
   String dnsName
   Integer createdTime
 
 
-  static class AzureLoadBalancerProbes {
+  static class AzureLoadBalancerProbe {
     enum AzureLoadBalancerProbesType {
       HTTP, TCP
     }
@@ -42,7 +42,7 @@ class AzureLoadBalancerDescription extends AzureBaseDescription {
     Integer unhealthyThreshold
   }
 
-  static class AzureLoadBalancingRules {
+  static class AzureLoadBalancingRule {
     enum AzureLoadBalancingRulesType {
       TCP, UDP
     }
@@ -56,7 +56,7 @@ class AzureLoadBalancerDescription extends AzureBaseDescription {
     Integer idleTimeout
   }
 
-  static class AzureLoadBalancerInboundNATRules {
+  static class AzureLoadBalancerInboundNATRule {
     enum AzureLoadBalancerInboundNATRulesProtocolType {
       HTTP, TCP
     }
@@ -72,8 +72,8 @@ class AzureLoadBalancerDescription extends AzureBaseDescription {
 
   public AzureLoadBalancerDescription () {
     super()
-    probes = new ArrayList<AzureLoadBalancerProbes>()
-    loadBalancingRules = new ArrayList<AzureLoadBalancingRules>()
-    inboundNATRules = new ArrayList<AzureLoadBalancerInboundNATRules>()
+    probes = new ArrayList<AzureLoadBalancerProbe>()
+    loadBalancingRules = new ArrayList<AzureLoadBalancingRule>()
+    inboundNATRules = new ArrayList<AzureLoadBalancerInboundNATRule>()
   }
 }

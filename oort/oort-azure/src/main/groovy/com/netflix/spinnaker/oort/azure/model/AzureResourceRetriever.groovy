@@ -180,7 +180,7 @@ class AzureResourceRetriever {
     description.region = azureLoadBalancer.location
 
     for (def rule : azureLoadBalancer.loadBalancingRules) {
-      def r = new AzureLoadBalancerDescription.AzureLoadBalancingRules(ruleName: rule.name)
+      def r = new AzureLoadBalancerDescription.AzureLoadBalancingRule(ruleName: rule.name)
       r.externalPort = rule.frontendPort
       r.backendPort = rule.backendPort
       r.probeName = getResourceNameFromID(rule.probe.id)
@@ -188,31 +188,31 @@ class AzureResourceRetriever {
       r.idleTimeout = rule.idleTimeoutInMinutes;
 
       if (rule.protocol.toLowerCase() == "udp") {
-        r.protocol = AzureLoadBalancerDescription.AzureLoadBalancingRules.AzureLoadBalancingRulesType.UDP
+        r.protocol = AzureLoadBalancerDescription.AzureLoadBalancingRule.AzureLoadBalancingRulesType.UDP
       } else {
-        r.protocol = AzureLoadBalancerDescription.AzureLoadBalancingRules.AzureLoadBalancingRulesType.TCP
+        r.protocol = AzureLoadBalancerDescription.AzureLoadBalancingRule.AzureLoadBalancingRulesType.TCP
       }
       description.loadBalancingRules.add(r)
     }
 
     // Add the probes
     for (def probe : azureLoadBalancer.probes) {
-      def p = new AzureLoadBalancerDescription.AzureLoadBalancerProbes()
+      def p = new AzureLoadBalancerDescription.AzureLoadBalancerProbe()
       p.probeName = probe.name
       p.probeInterval = probe.intervalInSeconds
       p.probePath = probe.requestPath
       p.probePort = probe.port
       p.unhealthyThreshold = probe.numberOfProbes
       if (probe.protocol.toLowerCase() == "tcp") {
-        p.probeProtocol = AzureLoadBalancerDescription.AzureLoadBalancerProbes.AzureLoadBalancerProbesType.TCP
+        p.probeProtocol = AzureLoadBalancerDescription.AzureLoadBalancerProbe.AzureLoadBalancerProbesType.TCP
       } else {
-        p.probeProtocol = AzureLoadBalancerDescription.AzureLoadBalancerProbes.AzureLoadBalancerProbesType.HTTP
+        p.probeProtocol = AzureLoadBalancerDescription.AzureLoadBalancerProbe.AzureLoadBalancerProbesType.HTTP
       }
       description.probes.add(p)
     }
 
     for (def natRule : azureLoadBalancer.inboundNatRules) {
-      def n = new AzureLoadBalancerDescription.AzureLoadBalancerInboundNATRules(ruleName: natRule.name)
+      def n = new AzureLoadBalancerDescription.AzureLoadBalancerInboundNATRule(ruleName: natRule.name)
       description.inboundNATRules.add(n)
     }
 
