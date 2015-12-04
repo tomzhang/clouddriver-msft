@@ -157,7 +157,7 @@ class AzureLoadBalancerResourceTemplate extends AzureResourceBaseTemplate {
 
     int i = 0
     while (i < description.loadBalancingRules.size()) {
-      UpsertAzureLoadBalancerDescription.AzureLoadBalancingRules r = description.loadBalancingRules[i]
+      UpsertAzureLoadBalancerDescription.AzureLoadBalancingRule r = description.loadBalancingRules[i]
       String loadBalancerRule = String.format(loadBalancerRuleProperty, r.ruleName, r.protocol.toString().toLowerCase(), r.externalPort, r.backendPort, r.probeName )
       loadBalancerRules.append(loadBalancerRule)
 
@@ -196,7 +196,7 @@ class AzureLoadBalancerResourceTemplate extends AzureResourceBaseTemplate {
     StringBuilder probes = new StringBuilder()
     int i = 0
     while (i < description.probes.size()) {
-      UpsertAzureLoadBalancerDescription.AzureLoadBalancerProbes p = description.probes[i]
+      UpsertAzureLoadBalancerDescription.AzureLoadBalancerProbe p = description.probes[i]
       probes.append(String.format(probeProperty, p.probeName, p.probeProtocol.toString().toLowerCase(), p.probePort, p.probeInterval, p.unhealthyThreshold, p.probePath))
       if (i < description.probes.size() -1) {
         probes.append(",\n")

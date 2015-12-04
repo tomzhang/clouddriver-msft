@@ -99,22 +99,22 @@ class AzureLoadBalancerController {
         lbDetail.vnet = "vnet-unassigned"
       }
 
-      lbDetail.probes = [ azureLoadBalancerDescription.probes ]
+      lbDetail.probes = azureLoadBalancerDescription.probes
 
       if (azureLoadBalancerDescription.securityGroups) {
-        lbDetail.securityGroups = [ azureLoadBalancerDescription.securityGroups ]
+        lbDetail.securityGroups = azureLoadBalancerDescription.securityGroups
       }
 
       if (azureLoadBalancerDescription.loadBalancingRules) {
-        lbDetail.loadBalancingRules = [ azureLoadBalancerDescription.loadBalancingRules ]
+        lbDetail.loadBalancingRules = azureLoadBalancerDescription.loadBalancingRules
       }
 
       if (azureLoadBalancerDescription.inboundNATRules) {
-        lbDetail.inboundNATRules = [ azureLoadBalancerDescription.inboundNATRules ]
+        lbDetail.inboundNATRules = azureLoadBalancerDescription.inboundNATRules
       }
 
       if (azureLoadBalancerDescription.dnsName) {
-        lbDetail.dnsName = [ azureLoadBalancerDescription.dnsName ]
+        lbDetail.dnsName = azureLoadBalancerDescription.dnsName
       }
       else {
         // return a constant in order to test the "deck" details view for a given load balancer

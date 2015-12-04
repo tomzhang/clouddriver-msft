@@ -28,15 +28,15 @@ class UpsertAzureLoadBalancerDescription {
   AzureCredentials credentials
   String region
   String vnet
-  List<AzureLoadBalancerProbes> probes
+  List<AzureLoadBalancerProbe> probes
   String securityGroups
-  List<AzureLoadBalancingRules> loadBalancingRules
-  List<AzureLoadBalancerInboundNATRules> inboundNATRules
+  List<AzureLoadBalancingRule> loadBalancingRules
+  List<AzureLoadBalancerInboundNATRule> inboundNATRules
   String name
   String user
 
 
-  static class AzureLoadBalancerProbes {
+  static class AzureLoadBalancerProbe {
     enum AzureLoadBalancerProbesType {
       HTTP, TCP
     }
@@ -49,7 +49,7 @@ class UpsertAzureLoadBalancerDescription {
     Integer unhealthyThreshold
   }
 
-  static class AzureLoadBalancingRules {
+  static class AzureLoadBalancingRule {
     enum AzureLoadBalancingRulesType {
       TCP, UDP
     }
@@ -63,7 +63,7 @@ class UpsertAzureLoadBalancerDescription {
     Integer idleTimeout
   }
 
-  static class AzureLoadBalancerInboundNATRules {
+  static class AzureLoadBalancerInboundNATRule {
     enum AzureLoadBalancerInboundNATRulesProtocolType {
       HTTP, TCP
     }
