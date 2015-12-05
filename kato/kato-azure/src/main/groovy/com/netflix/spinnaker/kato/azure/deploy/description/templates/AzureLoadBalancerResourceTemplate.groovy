@@ -17,6 +17,7 @@
 package com.netflix.spinnaker.kato.azure.deploy.description.templates
 
 import com.netflix.spinnaker.kato.azure.deploy.description.UpsertAzureLoadBalancerDescription
+import groovy.json.JsonBuilder
 
 class AzureLoadBalancerResourceTemplate extends AzureResourceBaseTemplate {
 
@@ -197,7 +198,7 @@ class AzureLoadBalancerResourceTemplate extends AzureResourceBaseTemplate {
     int i = 0
     while (i < description.probes.size()) {
       UpsertAzureLoadBalancerDescription.AzureLoadBalancerProbe p = description.probes[i]
-      probes.append(String.format(probeProperty, p.probeName, p.probeProtocol.toString().toLowerCase(), p.probePort, p.probeInterval, p.unhealthyThreshold, p.probePath))
+      probes.append(getProbeDefinition(p))
       if (i < description.probes.size() -1) {
         probes.append(",\n")
       }
@@ -206,7 +207,16 @@ class AzureLoadBalancerResourceTemplate extends AzureResourceBaseTemplate {
     probePropertyArraryHeader + String.format(resourceArrayString, probes.toString())
   }
 
-  //[concat('Microsoft.Network/loadBalancers/', variables('loadBalancerName'), '/backendAddressPools/loadBalancerBackEnd')]  loadBalancerBackendIDs
+  private static String getProbeDefinition(UpsertAzureLoadBalancerDescription.AzureLoadBalancerProbe probe) {
+    AzureProbe p = new AzureProbe(name: probe.probeName)
+    p.properties.intervalInSeconds = probe.probeInterval
+    p.properties.numberOfProbes = probe.unhealthyThreshold
+    p.properties.port = probe.probePort
+    p.properties.requestPath = probe.probePath
+    p.properties.protocol = probe.probeProtocol.name().toLowerCase()
+
+    new JsonBuilder(p).toString()
+  }
 
   private static networkIPAddressesType = "Microsoft.Network/publicIPAddresses"
   private static networkLoadBalancerType = "Microsoft.Network/loadBalancers"
@@ -316,6 +326,23 @@ class AzureLoadBalancerResourceTemplate extends AzureResourceBaseTemplate {
     "        \"description\": \"Location to deploy\"\n" +
     "      }\n" +
     "    }"
+
+  private static class AzureProbe {
+    String name
+    AzureProbeProperty properties
+
+    AzureProbe() {
+      properties = new AzureProbeProperty()
+    }
+
+    private static class AzureProbeProperty {
+      String protocol
+      Integer port
+      Integer intervalInSeconds
+      Integer numberOfProbes
+      String requestPath
+    }
+  }
 }
  /*
   {

@@ -52,13 +52,18 @@ class UpsertAzureLoadBalancerAtomicOperation implements AtomicOperation<Void> {
     task.updateStatus BASE_PHASE, "Initializing upsert of load balancer $description.loadBalancerName " +
       "in $description.region..."
 
-    description.credentials.resourceManagerClient.createLoadBalancerFromTemplate(description.credentials,
-      AzureLoadBalancerResourceTemplate.getTemplate(description),
-      description.appName, /*resourceGroupName */
-      description.region,
-      description.loadBalancerName)
+    try {
+      description.credentials.resourceManagerClient.createLoadBalancerFromTemplate(description.credentials,
+        AzureLoadBalancerResourceTemplate.getTemplate(description),
+        description.appName, /*resourceGroupName */
+        description.region,
+        description.loadBalancerName)
 
-    task.updateStatus BASE_PHASE, "Done upserting load balancer $description.loadBalancerName in $description.region."
+      task.updateStatus BASE_PHASE, "Deployment for load balancer $description.loadBalancerName in $description.region has succeeded."
+    } catch (Exception e) {
+      task.updateStatus BASE_PHASE, String.format("Deployment of load balancer $description.loadBalancerName failed: %s", e.message)
+      throw e
+    }
     null
   }
 

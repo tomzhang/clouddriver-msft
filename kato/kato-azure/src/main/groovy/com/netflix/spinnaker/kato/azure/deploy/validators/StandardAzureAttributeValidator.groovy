@@ -105,12 +105,12 @@ class StandardAzureAttributeValidator {
     return result
   }
 
-  def validateCredentials(String accountName, AccountCredentialsProvider accountCredentialsProvider) {
-    def result = validateNotEmpty(accountName, "credentials")
+  def validateCredentials(AzureCredentials account, AccountCredentialsProvider accountCredentialsProvider) {
+    def result = validateNotEmpty(account.appKey, "credentials")
     if (result) {
-      def credentials = accountCredentialsProvider.getCredentials(accountName)
+      def credentials = account
 
-      if (!(credentials?.credentials instanceof AzureCredentials)) {
+      if (!(credentials instanceof AzureCredentials)) {
         errors.rejectValue("credentials", "${context}.credentials.invalid")
         result = false
       }
