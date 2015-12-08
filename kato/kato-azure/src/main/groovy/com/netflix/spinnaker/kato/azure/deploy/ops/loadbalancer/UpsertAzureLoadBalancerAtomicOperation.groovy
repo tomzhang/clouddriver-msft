@@ -20,7 +20,6 @@ import com.netflix.spinnaker.clouddriver.azure.security.AzureCredentials
 import com.netflix.spinnaker.kato.azure.deploy.description.templates.AzureLoadBalancerResourceTemplate
 import com.netflix.spinnaker.kato.data.task.Task
 import com.netflix.spinnaker.kato.data.task.TaskRepository
-import com.netflix.spinnaker.kato.azure.deploy.AzureOperationPoller
 import com.netflix.spinnaker.kato.azure.deploy.description.UpsertAzureLoadBalancerDescription
 import com.netflix.spinnaker.kato.orchestration.AtomicOperation
 import org.springframework.beans.factory.annotation.Autowired
@@ -31,9 +30,6 @@ class UpsertAzureLoadBalancerAtomicOperation implements AtomicOperation<Void> {
   private static Task getTask() {
     TaskRepository.threadLocalTask.get()
   }
-
-  @Autowired
-  private AzureOperationPoller azureOperationPoller
 
   private final UpsertAzureLoadBalancerDescription description
 

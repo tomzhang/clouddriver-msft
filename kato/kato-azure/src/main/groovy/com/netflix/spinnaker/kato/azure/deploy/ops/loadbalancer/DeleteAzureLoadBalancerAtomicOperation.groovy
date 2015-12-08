@@ -19,7 +19,6 @@ package com.netflix.spinnaker.kato.azure.deploy.ops.loadbalancer
 import com.netflix.spinnaker.clouddriver.azure.security.AzureCredentials
 import com.netflix.spinnaker.kato.data.task.Task
 import com.netflix.spinnaker.kato.data.task.TaskRepository
-import com.netflix.spinnaker.kato.azure.deploy.AzureOperationPoller
 import com.netflix.spinnaker.kato.azure.deploy.description.DeleteAzureLoadBalancerDescription
 import com.netflix.spinnaker.kato.orchestration.AtomicOperation
 import org.springframework.beans.factory.annotation.Autowired
@@ -30,9 +29,6 @@ class DeleteAzureLoadBalancerAtomicOperation implements AtomicOperation<Void> {
   private static Task getTask() {
     TaskRepository.threadLocalTask.get()
   }
-
-  @Autowired
-  private AzureOperationPoller azureOperationPoller
 
   private final DeleteAzureLoadBalancerDescription description
 

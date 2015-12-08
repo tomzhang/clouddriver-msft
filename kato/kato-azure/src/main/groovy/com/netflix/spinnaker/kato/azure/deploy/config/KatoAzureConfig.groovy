@@ -16,15 +16,10 @@
 
 package com.netflix.spinnaker.kato.azure.deploy.config
 
-import com.netflix.spinnaker.kato.azure.deploy.AzureOperationPoller
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Component
 
 @Component
 class KatoAzureConfig {
-  @Bean
-  AzureOperationPoller azureOperationPoller() {
-    new AzureOperationPoller()
-  }
 }
 
