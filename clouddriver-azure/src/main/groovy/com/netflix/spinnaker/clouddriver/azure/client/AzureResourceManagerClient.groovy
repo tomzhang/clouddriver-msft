@@ -43,11 +43,11 @@ class AzureResourceManagerClient extends AzureBaseClient {
   // URI to the internal load balancer template. we should create our own public and private LB templates and store them in a local cache.
   private String loadBalancerTemplateUri = "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-create-internal-loadbalancer/azuredeploy.json"
 
-  public AzureResourceManagerClient(String subscriptionId) {
+  AzureResourceManagerClient(String subscriptionId) {
     super(subscriptionId)
   }
 
-  public String createLoadBalancerFromTemplate(AzureCredentials credentials,
+  String createLoadBalancerFromTemplate(AzureCredentials credentials,
                                                String template,
                                                String resourceGroupName,
                                                String region,
@@ -57,7 +57,7 @@ class AzureResourceManagerClient extends AzureBaseClient {
     createLoadBalancerFromTemplate(credentials, template, parameters, resourceGroupName, region, loadBalancerName)
   }
 
-  public String createLoadBalancerFromTemplate(AzureCredentials credentials,
+  String createLoadBalancerFromTemplate(AzureCredentials credentials,
                                                String template,
                                                Map<String, String> templateParams,
                                                String resourceGroupName,
@@ -76,11 +76,11 @@ class AzureResourceManagerClient extends AzureBaseClient {
 								     template,
 								     templateParams)
 
-    return deployment.properties.provisioningState
+    deployment.properties.provisioningState
 
   }
 
-  public ResourceGroup createResouceGroup(AzureCredentials creds, String resourceGroupName, String region) {
+  ResourceGroup createResouceGroup(AzureCredentials creds, String resourceGroupName, String region) {
     ResourceGroup rg = new ResourceGroup(region)
     try {
       return this.getResourceManagementClient(creds).getResourceGroupsOperations().createOrUpdate(resourceGroupName, rg).resourceGroup
@@ -89,22 +89,22 @@ class AzureResourceManagerClient extends AzureBaseClient {
     }
   }
 
-  public ArrayList<ResourceGroup> getResourcesGroupsForApp(AzureCredentials creds, String applicationName) {
+  ArrayList<ResourceGroup> getResourcesGroupsForApp(AzureCredentials creds, String applicationName) {
     ResourceGroupListParameters parameters = new ResourceGroupListParameters()
     parameters.setTagName("filter")
     parameters.setTagValue(applicationName)
     return this.getResourceManagementClient(creds).getResourceGroupsOperations().list(parameters).resourceGroups
   }
 
-  public ArrayList<ResourceGroupExtended> getAllResourceGroups(AzureCredentials creds) {
-    return this.getResourceManagementClient(creds).getResourceGroupsOperations().list(null).getResourceGroups()
+  ArrayList<ResourceGroupExtended> getAllResourceGroups(AzureCredentials creds) {
+    this.getResourceManagementClient(creds).getResourceGroupsOperations().list(null).getResourceGroups()
   }
 
-  public boolean resourceGroupExists(AzureCredentials creds, String resourceGroupName) {
-    return this.getResourceManagementClient(creds).getResourceGroupsOperations().checkExistence(resourceGroupName).isExists()
+  boolean resourceGroupExists(AzureCredentials creds, String resourceGroupName) {
+    this.getResourceManagementClient(creds).getResourceGroupsOperations().checkExistence(resourceGroupName).isExists()
   }
 
-  public void healthCheck(AzureCredentials creds) throws Exception {
+  void healthCheck(AzureCredentials creds) throws Exception {
     try {
       this.getResourceManagementClient(creds).getResourcesOperations().list(null)
     }
@@ -114,10 +114,10 @@ class AzureResourceManagerClient extends AzureBaseClient {
   }
 
   protected ResourceManagementClient getResourceManagementClient(AzureCredentials creds) {
-    return ResourceManagementService.create(this.buildConfiguration(creds))
+    ResourceManagementService.create(this.buildConfiguration(creds))
   }
 
-  public static DeploymentExtended createTemplateDeploymentFromPath(
+  static DeploymentExtended createTemplateDeploymentFromPath(
     ResourceManagementClient resourceManagementClient,
     String resourceGroupName,
     DeploymentMode deploymentMode,
@@ -159,108 +159,10 @@ class AzureResourceManagerClient extends AzureBaseClient {
     }
   }
 
-  /*
-public String createLoadBalancer(AzureCredentials creds,
-                                 String resourceGroupName,
-                                 String loadBalancerName,
-                                 String region) {
-  String templateVersion = "1.0.0.0"
-
-  try {
-    if (!resourceGroupExists(creds, resourceGroupName)) {
-      createResouceGroup(creds, resourceGroupName, region)
-    }
-
-    Map<String, String> templateParams = new HashMap<String, String>()
-    templateParams.put("loadBalancerName", loadBalancerName)
-    templateParams.put("location", region)
-    templateParams.put("addressPrefix", "10.0.0.0/16")
-    templateParams.put("subnetPrefix", "10.0.0.0/24")
-
-    DeploymentExtended deployment = ResourceHelper.createTemplateDeploymentFromURI(
-      this.getResourceManagementClient(creds),
-      resourceGroupName,
-      DeploymentMode.Incremental,
-      loadBalancerName,
-      String.format(loadBalancerTemplatePath, loadBalancerTemplatName),
-      templateVersion,
-      templateParams
-    )
-
-    return deployment.name
-  } catch (e) {
-    throw new RuntimeException("Unable to create load balancer ${loadBalancerName}", e)
-  }
-} */
-
-  /*
-  public String createLoadBalancer(AzureCredentials credentials,
-                                   String resourceGroupName,
-                                   String loadBalancerName,
-                                   String region) {
-    return createLoadBalancer(credentials, resourceGroupName, loadBalancerName, region, "stacktest", "spinnaker3");
-  }
-
-  public String deleteLoadBalancer(AzureCredentials credentials,
-                                   String resourceGroupName,
-                                   String loadBalancerName,
-                                   String region) {
-    return "";
-  }
-
-  public String createLoadBalancer(AzureCredentials credentials, String resourceGroupName, String loadBalancerName, String region, String stackName, String dnsName)
-  {
-    try {
-
-      Map<String, String> templateParams = getTemplateParameters(loadBalancerName, region, stackName, dnsName)
-
-      return createLoadBalanacerFromTemplate(credentials, getLoadBalancerTemplate(), templateParams, resourceGroupName, region)
-    }
-    catch (Exception e){
-      throw new Exception(String.format("Unable to create load balancer {0}", loadBalancerName))
-    }
-  } */
-
-
-  /*
-  private String loadBalancerTemplatName = "loadBlanacer.json";
-  private String loadBalancerTemplatePath = "/home/scotm/source/repos/haishi/clouddriver/clouddriver-azure/templates/%s"; //System.getenv("AZURE_LB_TEMPLATE");
-
-  private String getLoadBalancerTemplate() {
-    String content
-    String templatePath = System.getenv("AZURE_LOADBALANCER_TEMPLATE_PATH")
-    if (templatePath == null || templatePath.isEmpty()) {
-      content = loadBalancerTemplateString
-    } else {
-      Path p = Paths.get(templatePath)
-      if (!Files.exists(p))
-      {
-        content = loadBalancerTemplateString
-      }
-      else {
-        byte[] fileArray = Files.readAllBytes(p)
-        content = new String(fileArray);
-      }
-    }
-
-    content
-  }
-
-  private static Map<String, String> getTemplateParameters(String lbName, String region, String stackName, String dnsName)
-  {
-    Map<String, String> parms = new HashMap<String, String>();
-    parms.put("loadBalancerName", lbName);
-    parms.put("location", region);
-    parms.put("stackName",stackName);
-    parms.put("dnsNameforLBIP", dnsName);
-
-    return parms;
-  }
-  */
 
   /*
   // Example of how an Azure Load Balancer deploy template should look like
-  
+
   private static String loadBalancerTemplateString = "{\n" +
     "  \"\$schema\": \"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#\",\n" +
     "  \"contentVersion\": \"1.0.0.0\",\n" +

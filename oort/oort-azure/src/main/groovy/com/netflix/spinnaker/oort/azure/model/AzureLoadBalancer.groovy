@@ -32,21 +32,21 @@ class AzureLoadBalancer implements LoadBalancer {
 
   private Map<String, Object> dynamicProperties = new HashMap<String, Object>()
 
-  public AzureLoadBalancer() {
+  AzureLoadBalancer() {
   }
 
   @JsonAnyGetter
-  public Map<String,Object> any() {
+  Map<String,Object> any() {
     return dynamicProperties;
   }
 
   @JsonAnySetter
-  public void set(String name, Object value) {
+  void set(String name, Object value) {
     dynamicProperties.put(name, value);
   }
 
   @Override
-  public String getType() {
+  String getType() {
     return AZURE_LOAD_BALANCER_TYPE
   }
 

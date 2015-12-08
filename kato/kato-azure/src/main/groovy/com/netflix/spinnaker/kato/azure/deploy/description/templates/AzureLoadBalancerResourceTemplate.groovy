@@ -46,7 +46,8 @@ class AzureLoadBalancerResourceTemplate extends AzureResourceBaseTemplate {
     String parameters = getParametersTemplate(description)
     String variables = getVariablesTemplate(description)
     String resources = getResourcesTemplate(description)
-    return String.format(baseTemplate, parameters + ",\n" + variables + ",\n" + resources)
+
+    String.format(baseTemplate, parameters + ",\n" + variables + ",\n" + resources)
   }
 
   // Define the variables that will be used
@@ -89,6 +90,7 @@ class AzureLoadBalancerResourceTemplate extends AzureResourceBaseTemplate {
     variables.append(addVarEntry(String.format(variableEntry, frontEndIPConfigIDVar, getFrontEndIPConfigIDLookup()) + ","))
     variables.append(addVarEntry(String.format(variableEntry, subnetRefIdVar, getSubnetRefID()) + ","))
     variables.append(addVarEntry(String.format(variableEntry, nicIdVar, String.format(resourceIdLookupString, networkNicType, nicNameVar))))
+
     String.format(baseVariablesTemplate, variables.toString())
   }
 
@@ -102,6 +104,7 @@ class AzureLoadBalancerResourceTemplate extends AzureResourceBaseTemplate {
     resources.append(getResourceEntry(getVirtualNetworkResource(), ","))
     resources.append(getResourceEntry(getNetworkInterfaceResource(), ","))
     resources.append(getResourceEntry(getLoadBalancerResource(description),""))
+
     String.format(baseResourceTemplate, resources.toString())
   }
 
@@ -130,6 +133,7 @@ class AzureLoadBalancerResourceTemplate extends AzureResourceBaseTemplate {
     String virtualNetworkResourceName = String.format(variableString, virtualNetworkNameVar)
     virtualNetworks.append(String.format(resourceHeader, apiVersion, virtualNetworkResourceName, networkVNetType, frontEndIPConfigNameVar))
     virtualNetworks.append(virtualNetworkProperties)
+
     virtualNetworks.toString()
   }
 
@@ -139,6 +143,7 @@ class AzureLoadBalancerResourceTemplate extends AzureResourceBaseTemplate {
     networkInterfaces.append(String.format(resourceHeader, apiVersion, networkInterfaceResourceName, networkNicType))
     networkInterfaces.append(String.format(dependsOn, String.format(concatString, "'" + networkVNetType + "/'", String.format(variableString, virtualNetworkNameVar ))))
     networkInterfaces.append(String.format(networkInterfaceProperties))
+
     networkInterfaces.toString()
   }
 
@@ -147,6 +152,7 @@ class AzureLoadBalancerResourceTemplate extends AzureResourceBaseTemplate {
     String publicIPResourceName = String.format(variableString, publicIPAddressNameVar)
     publicIPAddresses.append(String.format(resourceHeader, apiVersion, publicIPResourceName, networkIPAddressesType))
     publicIPAddresses.append(publicIPAddressProperties)
+
     publicIPAddresses.toString()
   }
 

@@ -30,30 +30,30 @@ class AzureNetworkClient extends AzureBaseClient {
   }
 
   Collection<LoadBalancer> getLoadBalancersAll(AzureCredentials creds) {
-    return this.getNetworkResourceProviderClient(creds).getLoadBalancersOperations().listAll().getLoadBalancers()
+    this.getNetworkResourceProviderClient(creds).getLoadBalancersOperations().listAll().getLoadBalancers()
   }
 
   Collection<LoadBalancer> getLoadBalancersForResourceGroup(AzureCredentials creds, String resourceGroupName) {
-    return this.getNetworkResourceProviderClient(creds).getLoadBalancersOperations().list(resourceGroupName).getLoadBalancers()
+    this.getNetworkResourceProviderClient(creds).getLoadBalancersOperations().list(resourceGroupName).getLoadBalancers()
   }
 
   LoadBalancer getLoadBalancer(AzureCredentials creds, String loadBalancerName) {
-    return findLoadBalancer(getLoadBalancersAll(creds), loadBalancerName)
+    findLoadBalancer(getLoadBalancersAll(creds), loadBalancerName)
   }
 
   LoadBalancer getLoadBalancerInResourceGroup(AzureCredentials creds, String resourceGroupName, String loadBalanacerName) {
-    return findLoadBalancer(getLoadBalancersForResourceGroup(creds, resourceGroupName), loadBalanacerName)
+    findLoadBalancer(getLoadBalancersForResourceGroup(creds, resourceGroupName), loadBalanacerName)
   }
 
-  public String getLoadBalancerHealthState(AzureCredentials creds, String loadBalancerName) {
-    return getLoadBalancer(creds, loadBalancerName).getProvisioningState();
+  String getLoadBalancerHealthState(AzureCredentials creds, String loadBalancerName) {
+    getLoadBalancer(creds, loadBalancerName).getProvisioningState();
   }
 
   protected NetworkResourceProviderClient getNetworkResourceProviderClient(AzureCredentials creds) {
-    return NetworkResourceProviderService.create(this.buildConfiguration(creds))
+    NetworkResourceProviderService.create(this.buildConfiguration(creds))
   }
 
   private static LoadBalancer findLoadBalancer(Collection<LoadBalancer> loadBalancers, String loadBalancerName) {
-    return loadBalancers.find { it.name == loadBalancerName }
+    loadBalancers.find { it.name == loadBalancerName }
   }
 }

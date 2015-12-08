@@ -70,7 +70,7 @@ class AzureLoadBalancerDescription extends AzureBaseDescription {
     Integer port
   }
 
-  public AzureLoadBalancerDescription () {
+  AzureLoadBalancerDescription () {
     super()
     probes = new ArrayList<AzureLoadBalancerProbe>()
     loadBalancingRules = new ArrayList<AzureLoadBalancingRule>()

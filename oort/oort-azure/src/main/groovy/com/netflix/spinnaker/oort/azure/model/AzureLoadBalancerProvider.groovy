@@ -25,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-public class AzureLoadBalancerProvider implements LoadBalancerProvider<AzureLoadBalancer> {
+class AzureLoadBalancerProvider implements LoadBalancerProvider<AzureLoadBalancer> {
 
   @Autowired
   AzureResourceRetriever azureResourceRetriever
