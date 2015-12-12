@@ -48,36 +48,36 @@ class AzureResourceManagerClient extends AzureBaseClient {
   }
 
   String createLoadBalancerFromTemplate(AzureCredentials credentials,
-                                               String template,
-                                               String resourceGroupName,
-                                               String region,
-                                               String loadBalancerName) {
-    Map<String, String> parameters = new HashMap<String, String>();
-    parameters.put("location", region);
+                                        String template,
+                                        String resourceGroupName,
+                                        String region,
+                                        String loadBalancerName) {
+    def parameters = [location: region]
     createLoadBalancerFromTemplate(credentials, template, parameters, resourceGroupName, region, loadBalancerName)
   }
 
   String createLoadBalancerFromTemplate(AzureCredentials credentials,
-                                               String template,
-                                               Map<String, String> templateParams,
-                                               String resourceGroupName,
-                                               String region,
-                                               String loadBalancerName) {
+                                        String template,
+                                        Map<String, String> templateParams,
+                                        String resourceGroupName,
+                                        String region,
+                                        String loadBalancerName) {
     if (!resourceGroupExists(credentials, resourceGroupName)) {
       createResouceGroup(credentials, resourceGroupName, region)
     }
 
     String deploymentName = loadBalancerName + "_deployment"
 
-    DeploymentExtended deployment = createTemplateDeploymentFromPath(this.getResourceManagementClient(credentials),
-                                                                     resourceGroupName,
-								     DeploymentMode.Incremental,
-								     deploymentName,
-								     template,
-								     templateParams)
+    DeploymentExtended deployment = createTemplateDeploymentFromPath(
+      this.getResourceManagementClient(credentials),
+      resourceGroupName,
+      DeploymentMode.Incremental,
+      deploymentName,
+      template,
+      templateParams
+    )
 
     deployment.properties.provisioningState
-
   }
 
   ResourceGroup createResouceGroup(AzureCredentials creds, String resourceGroupName, String region) {
@@ -154,11 +154,11 @@ class AzureResourceManagerClient extends AzureBaseClient {
 
   private static class ParameterValue {
     String value;
+
     ParameterValue(String value) {
       this.value = value;
     }
   }
-
 
   /*
   // Example of how an Azure Load Balancer deploy template should look like
